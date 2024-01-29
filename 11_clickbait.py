@@ -66,7 +66,7 @@ def main():
 # Each of these functions returns a different type of headline:
 def generateAreMillennialsKillingHeadline():
     noun = random.choice(NOUNS)
-    return 'Are Millennials Killing the {} Industry?'.format(noun)
+    return f'Are Millennials Killing the {noun} Industry?'
 
 
 def generateWhatYouDontKnowHeadline():
