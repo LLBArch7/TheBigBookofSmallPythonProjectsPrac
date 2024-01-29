@@ -73,7 +73,7 @@ def generateWhatYouDontKnowHeadline():
     noun = random.choice(NOUNS)
     pluralNoun = random.choice(NOUNS) + 's'
     when = random.choice(WHEN)
-    return 'Without This {}, {} Could Kill You {}'.format(noun, pluralNoun, when)
+    return f'Without This {noun}, {pluralNoun} Could Kill You {when}'
 
 
 def generateBigCompaniesHateHerHeadline():
