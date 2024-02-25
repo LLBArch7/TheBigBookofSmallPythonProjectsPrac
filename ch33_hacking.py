@@ -12,12 +12,14 @@ import random, sys
 # Set up the constants:
 # The garbage filler characters for the "computer memory" display.
 GARBAGE_CHARS = '~!@#$%^&*()_+-={}[]|;:,.<>?/'
+
 # Load the WORDS list from a text file that has 7-letter words.
 with open('sevenletterwords.txt') as wordListFile:
     WORDS = wordListFile.readlines()
 for i in range(len(WORDS)):
     # Convert each word to uppercase and remove the trailing newline:
     WORDS[i] = WORDS[i].strip().upper()
+    
     
 def main():
     """Run a single game of Hacking."""
@@ -64,7 +66,7 @@ def getWords():
             words.append(randomWord)
             
     # Find two words that have 3 matching letters (but give up at 500
-    # # tries if not enough can be found).
+    # tries if not enough can be found).
     for i in range(500):
         if len(words) == 5:
             break # Found 5 words, so break out of the loop.
@@ -92,7 +94,18 @@ def getWords():
     return words
 
 
-def nunMatchingLetters(word1, word2):
+def getOneWordExcept(blocklist=None):
+    """Return a random work form WORDS that isn't in blocklist."""
+    if blocklist == None:
+        blocklist = []
+        
+    while True:
+        randomWord = random.choice(WORDS)
+        if randomWord not in blocklist:
+            return randomWord
+
+
+def numMatchingLetters(word1, word2):
     """Returns the number of matching letters in these two words."""
     matches = 0
     for i in range(len(word1)):
@@ -134,13 +147,13 @@ def getComputerMemoryString(words):
             insertionIndex = random.randint(0, 9)
             # insert the word:
             rightHalf = (rightHalf[:insertionIndex] + words[nextWord]
-                         + rightHalf[insertionIndex + 7])
+                        + rightHalf[insertionIndex + 7])
             nextWord += 1 # Update the word to put in the half line.
             
-        computerMemory.append('0x' hex(memoryAddress)[2:].zfill(4)
-                        + '  ' + leftHalf + '    '
-                        + '0x' + hex(memoryAddress + (16*16))[2:].zfill(4)
-                        + '  ' + rightHalf)
+        computerMemory.append('Ox' hex(memoryAddress)[2:].zfill(4)
+                              + '  ' + leftHalf + '    '
+                              + 'Ox' + hex(memoryAddress + (16*16))[2:].zfill(4)
+                              + '  ' + rightHalf)
         
         memoryAddress += 16 # Jump from, say, 0xe680 to 0xe690.
         
@@ -157,7 +170,7 @@ def askForPlayerGuess(words, tries):
         if guess in words:
             return guess
         print('That is not one of the possible passwords listed above.')
-        print(f'Try entering "{words[0]} or "{words[1]}".')
+        print(f'Try entering "{words[0]}" or "{words[1]}".')
         
         
 # If this program was run (instead of imported), run the game:

@@ -85,7 +85,7 @@ def main():
         drawHangman(missedLetters, correctLetters, secretWord)
         
         # Let the player enter their letter guess:
-        guess = getPlayerGuess(missedLetters, + correctLetters)
+        guess = getPlayerGuess(missedLetters + correctLetters)
         
         if guess in secretWord:
             # Add the correct guess to correctLetters:
@@ -98,22 +98,23 @@ def main():
                     # There's a letter in the secret word that isn't
                     # yet in correctedLetters, so the player hasn't won:
                     foundAllLetters = False
-                if foundAllLetters:
-                    print('Yes! The secret word is: ', secretWord)
-                    print('You have won!')
-                    break # Break out of the main game loop.
-                else:
-                    # the player has guessed incorrectly:
-                    missedLetters.append(guess)
+                    break
+            if foundAllLetters:
+                print('Yes! The secret word is: ', secretWord)
+                print('You have won!')
+                break # Break out of the main game loop.
+        else:
+            # the player has guessed incorrectly:
+            missedLetters.append(guess)
                     
-                    # Check if player has guessed too many times and lost. (The
-                    # "- 1" is because we don't count the empty gallows in
-                    # HANGMAN_PICS.)
-                    if len(missedLetters) == len(HANGMAN_PICS) - 1:
-                        drawHangman(missedLetters, correctLetters, secretWord)
-                        print('You have run out of guesses!')
-                        print(f'The work was "{secretWord}"')
-                        break
+            # Check if player has guessed too many times and lost. (The
+            # "- 1" is because we don't count the empty gallows in
+            # HANGMAN_PICS.)
+            if len(missedLetters) == len(HANGMAN_PICS) - 1:
+                drawHangman(missedLetters, correctLetters, secretWord)
+                print('You have run out of guesses!')
+                print(f'The work was "{secretWord}"')
+                break
                     
 def drawHangman(missedLetters, correctLetters, secretWord):
     """Draw the current state of teh hangman, alon with the missed and

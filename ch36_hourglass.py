@@ -20,7 +20,6 @@ WIDE_FALL_CHANCE = 50
 
 SCREEN_WIDTH = 79
 SCREEN_HEIGHT = 25
-
 X = 0 # The index of X values in an (x, y) tuple is 0.
 Y = 1 # The index of Y values in an (x, y) tuple is 1.
 SAND = chr(9617)
@@ -31,7 +30,7 @@ HOURGLASS = set() # Has (x,y) tuples for where hourglass walls are.
 # (!) Try commenting out some HOURGLASS.add() lines to erase walls:
 for i in range(18, 37):
     HOURGLASS.add((i, 1)) # Add walls for the top cap of the hourglass.
-    HOURGLASS.add((36, i)) # Add walls for the bottom cap.
+    HOURGLASS.add((i, 23)) # Add walls for the bottom cap.
 for i in range(1, 5):
     HOURGLASS.add((18, i)) # Add walls for the top left straight wall.
     HOURGLASS.add((36, i)) # Add walls for the top right straight wall.
@@ -59,7 +58,7 @@ def main():
     
     # Display the walls of the hourglass:
     for wall in HOURGLASS:
-        bext.gotowall[X], wall[Y]
+        bext.goto(wall[X], wall[Y])
         print(WALL, end='')
         
     while True: # Main program loop.
@@ -94,7 +93,7 @@ def runHourglassSimulation(allSand):
                 # Draw the sand in its new position down one space:
                 bext.goto(sand[X], sand[Y])
                 print(' ', end='') # Clear the old position.
-                bext.goto(sand[X], sand[Y], + 1)
+                bext.goto(sand[X], sand[Y] + 1)
                 print(SAND, end='')
                 
                 # Set the sand in its new position down one space:
@@ -138,8 +137,8 @@ def runHourglassSimulation(allSand):
                     noSandBelowTwoLeft = belowTwoLeft not in allSand
                     noWallBelowTwoLeft = belowTwoLeft not in HOURGLASS
                     notOnSecondToLeftEdge = sand[X] > 1
-                    canFallTwoLeft = (canFallLeft and no SandBelowTwoLeft
-                        and noWallBelowTwoLeft and notOnSecondToLeftEdge)
+                    canFallTwoLeft = (canFallLeft and noSandBelowTwoLeft
+                                      and noWallBelowTwoLeft and notOnSecondToLeftEdge)
                     
                     belowtwoRight = (sand[X] + 2, sand[Y] + 1)
                     noSandBelowTwoRight = belowtwoRight not in allSand
@@ -188,4 +187,4 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        sys.exit() # Wehn Ctrl-C is pressed, end the program.
+        sys.exit() # When Ctrl-C is pressed, end the program.
